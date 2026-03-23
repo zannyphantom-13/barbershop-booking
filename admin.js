@@ -116,6 +116,8 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
         currentFilter = e.target.dataset.filter;
         renderTable();
     });
+});
+
 checkAuth();
 
 // Mobile Sidebar Toggle
