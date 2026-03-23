@@ -1,4 +1,13 @@
-// Smooth Scrolling
+// Smooth Scrolling & Header Blur
+const header = document.getElementById('header');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+});
+
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
         if(this.getAttribute('href') !== '#') {
@@ -21,10 +30,14 @@ nextBtns.forEach(btn => {
         const nextStepId = e.target.getAttribute('data-next');
         if(!nextStepId) return;
         
-        // Hide all steps
-        steps.forEach(step => step.classList.remove('active'));
-        // Show next step
-        document.getElementById(nextStepId).classList.add('active');
+        const currentStep = document.querySelector('.booking-step.active');
+        const nextStep = document.getElementById(nextStepId);
+        
+        currentStep.classList.remove('active');
+        currentStep.classList.add('slide-out');
+        setTimeout(() => currentStep.classList.remove('slide-out'), 500);
+        
+        nextStep.classList.add('active');
         
         // Custom logic per step
         if(nextStepId === 'step3') generateTimeSlots();
@@ -38,10 +51,12 @@ backBtns.forEach(btn => {
         const backStepId = e.target.getAttribute('data-back');
         if(!backStepId) return;
         
-        // Hide all steps
-        steps.forEach(step => step.classList.remove('active'));
-        // Show previous step
-        document.getElementById(backStepId).classList.add('active');
+        const currentStep = document.querySelector('.booking-step.active');
+        const backStep = document.getElementById(backStepId);
+        
+        // For backwards nav, just instantly snap to prevent weird physics
+        currentStep.classList.remove('active');
+        backStep.classList.add('active');
     });
 });
 
@@ -136,7 +151,11 @@ document.getElementById('finalSubmitBtn').addEventListener('click', () => {
     btn.disabled = true;
     
     setTimeout(() => {
-        steps.forEach(step => step.classList.remove('active'));
+        const currentStep = document.querySelector('.booking-step.active');
+        currentStep.classList.remove('active');
+        currentStep.classList.add('slide-out');
+        setTimeout(() => currentStep.classList.remove('slide-out'), 500);
+        
         document.getElementById('stepSuccess').classList.add('active');
     }, 1500);
 });
