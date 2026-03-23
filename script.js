@@ -1,3 +1,5 @@
+import { db, ref, get, set } from './firebase-config.js';
+
 // Smooth Scrolling & Header Blur
 const header = document.getElementById('header');
 window.addEventListener('scroll', () => {
@@ -133,8 +135,8 @@ function updateSummary() {
     document.getElementById('summaryTime').innerText = `Time: ${selectedDate} at ${selectedTime}`;
 }
 
-// Final Submit Simulation
-document.getElementById('finalSubmitBtn').addEventListener('click', () => {
+// Final Submit to Firebase
+document.getElementById('finalSubmitBtn').addEventListener('click', async () => {
     // Basic validation
     const name = document.getElementById('clientName').value;
     const phone = document.getElementById('clientPhone').value;
@@ -145,17 +147,37 @@ document.getElementById('finalSubmitBtn').addEventListener('click', () => {
         return;
     }
     
-    // Simulate API call
     const btn = document.getElementById('finalSubmitBtn');
     btn.innerText = "Processing...";
     btn.disabled = true;
     
-    setTimeout(() => {
+    try {
+        const bookingsRef = ref(db, 'barber_bookings');
+        const snapshot = await get(bookingsRef);
+        const bookings = snapshot.exists() ? snapshot.val() : {};
+        
+        const newBookingId = 'bk_' + Date.now();
+        bookings[newBookingId] = {
+            name, phone, email,
+            service: document.getElementById('summaryService').innerText.replace('Service: ', ''),
+            barber: document.getElementById('summaryBarber').innerText.replace('Barber: ', ''),
+            time: document.getElementById('summaryTime').innerText.replace('Time: ', ''),
+            status: 'pending',
+            timestamp: Date.now()
+        };
+        
+        await set(bookingsRef, bookings);
+        
         const currentStep = document.querySelector('.booking-step.active');
         currentStep.classList.remove('active');
         currentStep.classList.add('slide-out');
         setTimeout(() => currentStep.classList.remove('slide-out'), 500);
         
         document.getElementById('stepSuccess').classList.add('active');
-    }, 1500);
+    } catch (err) {
+        console.error("Booking Error:", err);
+        alert("Sorry, there was an error processing your booking. Please try again later.");
+        btn.innerText = "Confirm Booking";
+        btn.disabled = false;
+    }
 });
