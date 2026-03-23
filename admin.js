@@ -116,6 +116,21 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
         currentFilter = e.target.dataset.filter;
         renderTable();
     });
-});
-
 checkAuth();
+
+// Mobile Sidebar Toggle
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const sidebar = document.querySelector('.sidebar');
+
+if (mobileMenuBtn && sidebar) {
+    mobileMenuBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('show');
+    });
+    
+    // Auto-close sidebar when clicking outside on mobile
+    document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 900 && !sidebar.contains(e.target) && e.target !== mobileMenuBtn) {
+            sidebar.classList.remove('show');
+        }
+    });
+}
