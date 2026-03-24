@@ -181,3 +181,17 @@ document.getElementById('finalSubmitBtn').addEventListener('click', async () => 
         btn.disabled = false;
     }
 });
+
+// Scroll Reveal Animation Observer
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if(entry.isIntersecting) {
+            entry.target.classList.add('active');
+            // Optional: unobserve if you only want it to animate once
+            revealObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.1 });
+
+// Initialize observer on all elements with .reveal class
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
