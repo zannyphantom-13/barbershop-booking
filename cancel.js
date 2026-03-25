@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
             await set(bookingsRef, bookings);
 
             // Send EmailJS Cancellation Notice
-            emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+            emailjs.send("service_jxztazs", "template_nbyn5al", {
                 client_name: booking.name,
                 client_email: booking.email,
                 booking_id: bookingId,

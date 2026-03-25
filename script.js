@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Trigger Confirmation Email via EmailJS
                 try {
-                    emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+                    emailjs.send("service_jxztazs", "template_nbyn5al", {
                         client_name: name,
                         client_email: email,
                         booking_id: newBookingId,
