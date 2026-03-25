@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancel Appointment | Sharp Edge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- EmailJS Integration -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init({
+              publicKey: "YOUR_PUBLIC_KEY",
+            });
+        })();
+    </script>
+</head>
+<body style="min-height: 100vh; display: flex; flex-direction: column; justify-content: center; background-color: var(--obsidian); color: var(--gold);">
+
+    <section class="booking-section">
+        <div class="booking-container glass-card" style="margin: 0 auto;">
+            <div class="booking-header">
+                <h2 class="section-title">Cancel Reservation</h2>
+                <p>Provide your details to securely cancel your appointment.</p>
+            </div>
+            
+            <div class="booking-widget">
+                <div class="b-step active" id="cancelStep">
+                    <input type="text" id="cancelBookingId" class="sleek-input" placeholder="Booking ID (e.g., bk_123456)">
+                    <input type="email" id="cancelEmail" class="sleek-input" placeholder="Email Address used for Booking">
+                    
+                    <p id="cancelFeedback" style="color: red; display: none; margin-bottom: 1rem;"></p>
+                    
+                    <div class="step-nav" style="justify-content: center;">
+                        <button class="btn-primary w-100 btn-sweep" id="cancelBtn">Confirm Cancellation</button>
+                    </div>
+                    <div style="margin-top: 15px; text-align: center;">
+                        <a href="index.html" style="color: var(--gold); text-decoration: none;">&larr; Return to Home</a>
+                    </div>
+                </div>
+
+                <!-- Success Step -->
+                <div class="b-step" id="cancelSuccess">
+                    <div class="success-wrap">
+                        <div class="success-icon">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <h3 class="section-title" style="font-size: 1.5rem;">Cancellation Confirmed</h3>
+                        <p>Your appointment has been successfully cancelled. We hope to see you again.</p>
+                        <button class="btn-primary btn-sweep" style="margin-top: 20px;" onclick="window.location.href='index.html'">Go to Home</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script type="module" src="cancel.js"></script>
+</body>
+</html>
